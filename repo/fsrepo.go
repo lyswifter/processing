@@ -14,9 +14,11 @@ import (
 var log = logging.Logger("repo")
 
 const (
+	fsAPI       = "api"
 	fsConfig    = "config.toml"
 	fsDatastore = "datastore"
 	fsKeystore  = "keystore"
+	fsLock      = "repo.lock"
 )
 
 // FsRepo FsRepo
@@ -73,10 +75,11 @@ func (fsr *FsRepo) initConfig() error {
 		return err
 	}
 
-	comm, err := config.DefaultProcessingNode()
+	comm, err := config.ConfigComment(config.DefaultProcessingNode())
 	if err != nil {
-		return xerrors.Errorf("comment: %w", err)
+		return err
 	}
+
 	_, err = c.Write(comm)
 	if err != nil {
 		return xerrors.Errorf("write config: %w", err)

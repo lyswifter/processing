@@ -8,12 +8,12 @@ type ProcessingNode struct {
 }
 
 // DefaultProcessingNode DefaultProcessingNode
-func DefaultProcessingNode(n *ProcessingNode) {
-	n = &ProcessingNode{
+func DefaultProcessingNode() ProcessingNode {
+	n := ProcessingNode{
 		NodeType: 1,
 		NodeName: "",
 		NodeAddr: "",
 	}
 
-	return
+	return n
 }
