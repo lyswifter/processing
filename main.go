@@ -1,19 +1,20 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	logging "github.com/ipfs/go-log"
 	"github.com/urfave/cli/v2"
+
+	"github.com/lyswifter/processing/cmd"
 )
 
 var log = logging.Logger("processing")
 
 func main() {
 	local := []*cli.Command{
-		initCmd,
-		runCmd,
+		cmd.InitCmd,
+		cmd.RunCmd,
 	}
 
 	app := &cli.App{
@@ -36,22 +37,4 @@ func main() {
 		log.Warnf("%+v", err)
 		return
 	}
-}
-
-var initCmd = &cli.Command{
-	Name:  "init",
-	Usage: "init processing server node",
-	Action: func(cctx *cli.Context) error {
-		log.Info("initial processing server node")
-		return nil
-	},
-}
-
-var runCmd = &cli.Command{
-	Name:  "run",
-	Usage: "start processing server",
-	Action: func(cctx *cli.Context) error {
-		fmt.Print("Processing server is running...")
-		return nil
-	},
 }

@@ -61,6 +61,29 @@ func (fsr *FsRepo) Exists() (bool, error) {
 	return !notexist, err
 }
 
+func (fsr *FsRepo) Init() error {
+	exist, err := fsr.Exists()
+	if err != nil {
+		return err
+	}
+	if exist {
+		return nil
+	}
+
+	log.Infof("Initializing repo at '%s'", fsr.path)
+	err = os.MkdirAll(fsr.path, 0755) //nolint: gosec
+	if err != nil && !os.IsExist(err) {
+		return err
+	}
+
+	if err := fsr.initConfig(); err != nil {
+		return xerrors.Errorf("init config: %w", err)
+	}
+
+	return nil
+
+}
+
 func (fsr *FsRepo) initConfig() error {
 	_, err := os.Stat(fsr.configPath)
 	if err == nil {
