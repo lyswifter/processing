@@ -4,11 +4,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/lyswifter/processing/config"
-
 	logging "github.com/ipfs/go-log/v2"
 	"github.com/mitchellh/go-homedir"
 	"golang.org/x/xerrors"
+
+	config "github.com/lyswifter/processing/config"
 )
 
 var log = logging.Logger("repo")
