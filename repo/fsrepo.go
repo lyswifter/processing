@@ -40,6 +40,11 @@ func NewFS(path string) (*FsRepo, error) {
 	}, nil
 }
 
+// Path path
+func (fsr *FsRepo) Path() string {
+	return fsr.path
+}
+
 // SetConfigPath SetConfigPath
 func (fsr *FsRepo) SetConfigPath(cfgPath string) {
 	fsr.configPath = cfgPath

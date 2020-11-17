@@ -1,13 +1,17 @@
 package cmd
 
 import (
-	"github.com/qiniu/x/log"
+	"fmt"
+
+	logging "github.com/ipfs/go-log"
 	"github.com/urfave/cli/v2"
 
 	"github.com/lyswifter/processing/repo"
 )
 
-var repoPath = "processing"
+var log = logging.Logger("processing")
+
+var repoPath = "~/.processing"
 
 // InitCmd InitCmd
 var InitCmd = &cli.Command{
@@ -30,7 +34,7 @@ var InitCmd = &cli.Command{
 			return err
 		}
 
-		log.Info("Initial processing server node successfully")
+		fmt.Printf("Initial processing node at %s successfully\n", r.Path())
 
 		return nil
 	},
