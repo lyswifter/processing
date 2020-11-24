@@ -25,12 +25,12 @@ var RunCmd = &cli.Command{
 
 		// Process the templates at the start so that they don't have to be loaded
 		// from the disk again. This makes serving HTML pages very fast.
-		// router.LoadHTMLGlob("templates/*")
+		// router.LoadHTMLGlob("template/*")
 
 		// Initialize the routes
-		initializeSendPowerRoutes()
+		initializeRoutes()
 
-		fmt.Print("Processing server is running...")
+		fmt.Println("Processing server is running...")
 
 		// Start serving the application
 		router.Run(":9090")
@@ -38,11 +38,18 @@ var RunCmd = &cli.Command{
 	},
 }
 
-func initializeSendPowerRoutes() {
-	router.GET("/", handler.ShowIndexPage)
+func initializeRoutes() {
+	router.GET("/", handler.HandleIndex)
 
-	userRoutes := router.Group("/pow")
+	dealRoutes := router.Group("/deal")
 	{
-		userRoutes.GET("send", handler.HandleSendPower)
+		dealRoutes.GET("/send", handler.HandleSendDeal)
 	}
+
+	// send
+	powerRoutes := router.Group("/pow")
+	{
+		powerRoutes.GET("/send", handler.HandleSendPower)
+	}
+
 }

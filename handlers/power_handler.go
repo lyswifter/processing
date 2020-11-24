@@ -1,16 +1,12 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
 
-func ShowPowerPage(c *gin.Context) {
-	// Call the render function with the name of the template to render
-	render(c, gin.H{
-		"title": "Power",
-	}, "power.html")
-}
+	"github.com/gin-gonic/gin"
+)
 
+// HandleSendPower HandleSendPower
 func HandleSendPower(c *gin.Context) {
-	render(c, gin.H{
-		"title": "sendPower",
-	}, "send.html")
+	c.JSON(http.StatusOK, gin.H{"data": "HandleSendPower"})
 }

@@ -1,9 +1,12 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
 
-func ShowIndexPage(c *gin.Context) {
-	render(c, gin.H{
-		"title": "Index",
-	}, "index.html")
+	"github.com/gin-gonic/gin"
+)
+
+// HandleIndex HandleIndex
+func HandleIndex(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"data": "HandleIndex", "code": "0", "msg": ""})
 }

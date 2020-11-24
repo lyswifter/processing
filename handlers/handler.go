@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	logging "github.com/ipfs/go-log/v2"
@@ -25,7 +24,6 @@ func render(c *gin.Context, data gin.H, templateName string) {
 		c.XML(http.StatusOK, data["payload"])
 	default:
 		// Respond with HTML
-		fmt.Printf("data: %v", data)
 		c.HTML(http.StatusOK, templateName, data)
 	}
 }

@@ -22,8 +22,15 @@ func ChainBadgerOptions() badger.Options {
 }
 
 var fsDatastores = map[string]dsCtor{
-	"chain":    chainBadgerDs,
-	"metadata": levelDs,
+	"deal":         chainBadgerDs,
+	"power":        chainBadgerDs,
+	"slave":        chainBadgerDs,
+	"uploader":     chainBadgerDs,
+	"window":       chainBadgerDs,
+	"winning":      chainBadgerDs,
+	"poster":       chainBadgerDs,
+	"osp-provider": chainBadgerDs,
+	"osp-worker":   chainBadgerDs,
 }
 
 func chainBadgerDs(path string, readonly bool) (datastore.Batching, error) {
