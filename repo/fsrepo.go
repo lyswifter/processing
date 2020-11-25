@@ -52,18 +52,13 @@ func (fsr *FsRepo) SetConfigPath(cfgPath string) {
 
 // Exists Exists
 func (fsr *FsRepo) Exists() (bool, error) {
-	_, err := os.Stat(filepath.Join(fsr.path, fsDatastore))
-	notexist := os.IsNotExist(err)
-	if notexist {
-		err = nil
-
-		_, err = os.Stat(filepath.Join(fsr.path, fsKeystore))
-		notexist = os.IsNotExist(err)
-		if notexist {
-			err = nil
-		}
-	}
-	return !notexist, err
+	// _, err := os.Stat(filepath.Join(fsr.path, fsDatastore))
+	// notexist := os.IsNotExist(err)
+	// if notexist {
+	// 	err = nil
+	// }
+	// return !notexist, err
+	return true, nil
 }
 
 func (fsr *FsRepo) Init() error {

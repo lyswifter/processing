@@ -4,9 +4,23 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ipfs/go-datastore"
 	"github.com/urfave/cli/v2"
 
+	"github.com/lyswifter/processing/db"
 	handler "github.com/lyswifter/processing/handlers"
+)
+
+const (
+	dealDsNamespace        = "deal"
+	powerDsNamespace       = "power"
+	slaveDsNamespace       = "slave"
+	uploaderDsNamespace    = "uploader"
+	windowDsNamespace      = "window"
+	winningDsNamespace     = "winning"
+	posterDsNamespace      = "poster"
+	ospProviderDsNamespace = "osp-provider"
+	ospworkerDsNamespace   = "osp-worker"
 )
 
 var router *gin.Engine
@@ -30,6 +44,12 @@ var RunCmd = &cli.Command{
 		// Initialize the routes
 		initializeRoutes()
 
+		err := initDs()
+		if err != nil {
+			fmt.Printf("initDs: %s", err.Error())
+			return err
+		}
+
 		fmt.Println("Processing server is running...")
 
 		// Start serving the application
@@ -51,5 +71,40 @@ func initializeRoutes() {
 	{
 		powerRoutes.GET("/send", handler.HandleSendPower)
 	}
+}
 
+func initDs() error {
+	ds, err := db.OpenDs(repoPath, datastore.NewKey(dealDsNamespace).String())
+	if err != nil {
+		return err
+	}
+	db.DealDs = ds
+
+	ds, err = db.OpenDs(repoPath, datastore.NewKey(powerDsNamespace).String())
+	if err != nil {
+		return err
+	}
+	db.PowerDs = ds
+
+	ds, err = db.OpenDs(repoPath, datastore.NewKey(windowDsNamespace).String())
+	if err != nil {
+		return err
+	}
+	db.WindowDs = ds
+
+	ds, err = db.OpenDs(repoPath, datastore.NewKey(winningDsNamespace).String())
+	if err != nil {
+		return err
+	}
+	db.WinningDs = ds
+
+	ds, err = db.OpenDs(repoPath, datastore.NewKey(slaveDsNamespace).String())
+	if err != nil {
+		return err
+	}
+	db.SlaveDs = ds
+
+	//...
+
+	return nil
 }
