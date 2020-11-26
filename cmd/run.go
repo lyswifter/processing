@@ -71,6 +71,17 @@ func initializeRoutes() {
 	{
 		powerRoutes.GET("/send", handler.HandleSendPower)
 	}
+
+	// record
+	recordRoutes := router.Group("record")
+	{
+		recordRoutes.POST("/event", handler.HandleRecordEvent)
+	}
+
+	sectorInfoRoutes := router.Group("sector")
+	{
+		sectorInfoRoutes.POST("/info", handler.HandleSectorInfo)
+	}
 }
 
 func initDs() error {
@@ -80,29 +91,29 @@ func initDs() error {
 	}
 	db.DealDs = ds
 
-	ds, err = db.OpenDs(repoPath, datastore.NewKey(powerDsNamespace).String())
-	if err != nil {
-		return err
-	}
-	db.PowerDs = ds
+	// ds, err = db.OpenDs(repoPath, datastore.NewKey(powerDsNamespace).String())
+	// if err != nil {
+	// 	return err
+	// }
+	// db.PowerDs = ds
 
-	ds, err = db.OpenDs(repoPath, datastore.NewKey(windowDsNamespace).String())
-	if err != nil {
-		return err
-	}
-	db.WindowDs = ds
+	// ds, err = db.OpenDs(repoPath, datastore.NewKey(windowDsNamespace).String())
+	// if err != nil {
+	// 	return err
+	// }
+	// db.WindowDs = ds
 
-	ds, err = db.OpenDs(repoPath, datastore.NewKey(winningDsNamespace).String())
-	if err != nil {
-		return err
-	}
-	db.WinningDs = ds
+	// ds, err = db.OpenDs(repoPath, datastore.NewKey(winningDsNamespace).String())
+	// if err != nil {
+	// 	return err
+	// }
+	// db.WinningDs = ds
 
-	ds, err = db.OpenDs(repoPath, datastore.NewKey(slaveDsNamespace).String())
-	if err != nil {
-		return err
-	}
-	db.SlaveDs = ds
+	// ds, err = db.OpenDs(repoPath, datastore.NewKey(slaveDsNamespace).String())
+	// if err != nil {
+	// 	return err
+	// }
+	// db.SlaveDs = ds
 
 	//...
 

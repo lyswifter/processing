@@ -42,7 +42,7 @@ func OpenDs(repoPath string, namespace string) (datastore.Batching, error) {
 		return nil, err
 	}
 
-	defer lr.Close()
+	// defer lr.Close()
 
 	ds, err := lr.Datastore(namespace)
 	if err != nil {
