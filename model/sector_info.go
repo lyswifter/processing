@@ -7,8 +7,14 @@ import (
 	"github.com/filecoin-project/specs-actors/actors/builtin/miner"
 	"github.com/filecoin-project/specs-storage/storage"
 	"github.com/ipfs/go-cid"
+	cbor "github.com/ipfs/go-ipld-cbor"
 	peer "github.com/libp2p/go-libp2p-peer"
 )
+
+func init() {
+	cbor.RegisterCborType(SectorInfo{})
+	cbor.RegisterCborType(SectorInfoExt{})
+}
 
 type ReturnState string
 

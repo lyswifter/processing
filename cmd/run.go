@@ -8,6 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/lyswifter/processing/db"
+	sectorstore "github.com/lyswifter/processing/db/sectorstore"
 	handler "github.com/lyswifter/processing/handlers"
 )
 
@@ -21,6 +22,10 @@ const (
 	posterDsNamespace      = "poster"
 	ospProviderDsNamespace = "osp-provider"
 	ospworkerDsNamespace   = "osp-worker"
+)
+
+const (
+	sectorDsNamespace = "sectors"
 )
 
 var router *gin.Engine
@@ -43,6 +48,8 @@ var RunCmd = &cli.Command{
 
 		// Initialize the routes
 		initializeRoutes()
+
+		initFrontRoutes()
 
 		err := initDs()
 		if err != nil {
@@ -84,38 +91,22 @@ func initializeRoutes() {
 	}
 }
 
+func initFrontRoutes() {
+	router.GET("/restart", handler.RestartAllSectors)
+}
+
 func initDs() error {
-	ds, err := db.OpenDs(repoPath, datastore.NewKey(dealDsNamespace).String())
+	ds, err := db.OpenDs(repoPath, datastore.NewKey(sectorDsNamespace).String())
 	if err != nil {
 		return err
 	}
-	db.DealDs = ds
 
-	// ds, err = db.OpenDs(repoPath, datastore.NewKey(powerDsNamespace).String())
-	// if err != nil {
-	// 	return err
-	// }
-	// db.PowerDs = ds
+	sl, err := sectorstore.NewLifecycle(ds)
+	if err != nil {
+		return err
+	}
 
-	// ds, err = db.OpenDs(repoPath, datastore.NewKey(windowDsNamespace).String())
-	// if err != nil {
-	// 	return err
-	// }
-	// db.WindowDs = ds
-
-	// ds, err = db.OpenDs(repoPath, datastore.NewKey(winningDsNamespace).String())
-	// if err != nil {
-	// 	return err
-	// }
-	// db.WinningDs = ds
-
-	// ds, err = db.OpenDs(repoPath, datastore.NewKey(slaveDsNamespace).String())
-	// if err != nil {
-	// 	return err
-	// }
-	// db.SlaveDs = ds
-
-	//...
+	db.SectorStore = sl
 
 	return nil
 }

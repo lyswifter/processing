@@ -1,28 +1,21 @@
 package handler
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 
 	cborutil "github.com/filecoin-project/go-cbor-util"
 	"github.com/gin-gonic/gin"
-	"github.com/ipfs/go-datastore"
 	"github.com/lyswifter/processing/db"
+	"github.com/lyswifter/processing/db/sectorstore"
 	"github.com/lyswifter/processing/model"
 )
 
 // HandleSectorInfo HandleSectorInfo
 func HandleSectorInfo(c *gin.Context) {
-	var sinfo model.SectorInfo
-	if err := cborutil.ReadCborRPC(c.Request.Body, &sinfo); err != nil {
-		if err.Error() != "EOF" {
-			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-			return
-		}
-	}
-
-	fmt.Printf("SectorInfo: %+v", sinfo)
 
 	r, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
@@ -30,14 +23,51 @@ func HandleSectorInfo(c *gin.Context) {
 		return
 	}
 
-	// save or update sectorinfo in database
-	err = db.DealDs.Put(datastore.NewKey(sinfo.SectorNumber.String()), r)
+	var evt *model.SealingStateInfoEvt
+	err = json.Unmarshal(r, evt)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
-	fmt.Println("Save ok")
+	var bSinfo model.SectorInfo
+	if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.BInfo), &bSinfo); err != nil {
+		if err.Error() != "EOF" {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			return
+		}
+	}
+
+	fmt.Printf("SectorBInfo: %+v", bSinfo)
+
+	var aSinfo model.SectorInfo
+	if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.AInfo), &bSinfo); err != nil {
+		if err.Error() != "EOF" {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			return
+		}
+	}
+
+	fmt.Printf("SectorAInfo: %+v", aSinfo)
+
+	var extInfo model.SectorInfoExt
+	if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.ExtInfo), &extInfo); err != nil {
+		if err.Error() != "EOF" {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+			return
+		}
+	}
+
+	fmt.Printf("SectorInfoExt: %+v", extInfo)
+
+	db.SectorStore.Incoming <- &sectorstore.SectorEvt{
+		Before:       bSinfo.State,
+		After:        aSinfo.State,
+		SectorNumber: aSinfo.SectorNumber,
+		Sinfo:        aSinfo,
+	}
+
+	fmt.Println("push sector ok")
 
 	c.JSON(http.StatusOK, gin.H{"data": "HandleSectorInfo"})
 }

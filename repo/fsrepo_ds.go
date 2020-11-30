@@ -22,10 +22,7 @@ func ChainBadgerOptions() badger.Options {
 }
 
 var fsDatastores = map[string]dsCtor{
-	"deal":         chainBadgerDs,
-	"power":        chainBadgerDs,
-	"slave":        chainBadgerDs,
-	"uploader":     chainBadgerDs,
+	"sectors":      chainBadgerDs,
 	"window":       chainBadgerDs,
 	"winning":      chainBadgerDs,
 	"poster":       chainBadgerDs,

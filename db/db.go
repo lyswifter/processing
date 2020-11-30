@@ -2,24 +2,13 @@ package db
 
 import (
 	"github.com/ipfs/go-datastore"
+	"github.com/lyswifter/processing/db/sectorstore"
 	"github.com/lyswifter/processing/repo"
 	"golang.org/x/xerrors"
 )
 
-// DealDs DealDs
-var DealDs datastore.Batching
-
-// PowerDs PowerDs
-var PowerDs datastore.Batching
-
-// WindowDs WindowDs
-var WindowDs datastore.Batching
-
-// WinningDs WinningDs
-var WinningDs datastore.Batching
-
-// SlaveDs SlaveDs
-var SlaveDs datastore.Batching
+// SectorStore SectorStore
+var SectorStore *sectorstore.SectorLifecycle
 
 // OpenDs OpenDs
 func OpenDs(repoPath string, namespace string) (datastore.Batching, error) {

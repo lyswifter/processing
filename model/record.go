@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	abi "github.com/filecoin-project/go-state-types/abi"
+)
 
 // Event Event
 type Event struct {
@@ -20,4 +24,13 @@ type EventType struct {
 	// safe is a sentinel marker that's set to true if this EventType was
 	// constructed correctly (via Journal#RegisterEventType).
 	Safe bool `json:"safe"`
+}
+
+// SealingStateInfoEvt SealingStateInfoEvt
+type SealingStateInfoEvt struct {
+	BInfo      []byte
+	AInfo      []byte
+	ExtInfo    []byte
+	SectorID   abi.SectorNumber
+	SectorType abi.RegisteredSealProof
 }
