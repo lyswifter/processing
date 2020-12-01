@@ -1,16 +1,13 @@
 package handler
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 
-	cborutil "github.com/filecoin-project/go-cbor-util"
 	"github.com/gin-gonic/gin"
 	"github.com/lyswifter/processing/db"
-	"github.com/lyswifter/processing/db/sectorstore"
 	"github.com/lyswifter/processing/model"
 )
 
@@ -23,49 +20,53 @@ func HandleSectorInfo(c *gin.Context) {
 		return
 	}
 
-	var evt *model.SealingStateInfoEvt
-	err = json.Unmarshal(r, evt)
+	log.Infof("SealingStateEvt: %s", string(r))
+
+	var sinfo model.SealingStateEvt
+	err = json.Unmarshal(r, &sinfo)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
-	var bSinfo model.SectorInfo
-	if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.BInfo), &bSinfo); err != nil {
-		if err.Error() != "EOF" {
-			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-			return
-		}
-	}
+	// var evt *model.SealingStateInfoEvt
+	// err = json.Unmarshal(r, evt)
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+	// 	return
+	// }
 
-	fmt.Printf("SectorBInfo: %+v", bSinfo)
+	// var bSinfo model.SectorInfo
+	// if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.BInfo), &bSinfo); err != nil {
+	// 	if err.Error() != "EOF" {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+	// 		return
+	// 	}
+	// }
 
-	var aSinfo model.SectorInfo
-	if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.AInfo), &bSinfo); err != nil {
-		if err.Error() != "EOF" {
-			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-			return
-		}
-	}
+	// fmt.Printf("SectorBInfo: %+v", bSinfo)
 
-	fmt.Printf("SectorAInfo: %+v", aSinfo)
+	// var aSinfo model.SectorInfo
+	// if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.AInfo), &bSinfo); err != nil {
+	// 	if err.Error() != "EOF" {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+	// 		return
+	// 	}
+	// }
 
-	var extInfo model.SectorInfoExt
-	if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.ExtInfo), &extInfo); err != nil {
-		if err.Error() != "EOF" {
-			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-			return
-		}
-	}
+	// fmt.Printf("SectorAInfo: %+v", aSinfo)
 
-	fmt.Printf("SectorInfoExt: %+v", extInfo)
+	// var extInfo model.SectorInfoExt
+	// if err := cborutil.ReadCborRPC(bytes.NewBuffer(evt.ExtInfo), &extInfo); err != nil {
+	// 	if err.Error() != "EOF" {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+	// 		return
+	// 	}
+	// }
 
-	db.SectorStore.Incoming <- &sectorstore.SectorEvt{
-		Before:       bSinfo.State,
-		After:        aSinfo.State,
-		SectorNumber: aSinfo.SectorNumber,
-		Sinfo:        aSinfo,
-	}
+	// fmt.Printf("SectorInfoExt: %+v", extInfo)
+
+	db.SectorStore.Incoming <- &sinfo
 
 	fmt.Println("push sector ok")
 

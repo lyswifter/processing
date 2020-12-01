@@ -1,7 +1,6 @@
 package sectorstore
 
 import (
-	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-statestore"
 	"github.com/ipfs/go-datastore"
 	"github.com/ipfs/go-datastore/namespace"
@@ -67,18 +66,10 @@ type SectorLifecycle struct {
 	OfflineDealsReady       *statestore.StateStore
 	OfflineDealsReadyFailed *statestore.StateStore
 
-	Incoming chan *SectorEvt
+	Incoming chan *model.SealingStateEvt
 
 	closing chan struct{}
 	closed  chan struct{}
-}
-
-// SectorEvt SectorEvt
-type SectorEvt struct {
-	Before       model.SectorState
-	After        model.SectorState
-	SectorNumber abi.SectorNumber
-	Sinfo        model.SectorInfo
 }
 
 // NewLifecycle NewLifecycle
@@ -137,7 +128,7 @@ func NewLifecycle(ds datastore.Batching) (*SectorLifecycle, error) {
 		OfflineDealsReady:       statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/OfflineDealsReady"))),
 		OfflineDealsReadyFailed: statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/OfflineDealsReadyFailed"))),
 
-		Incoming: make(chan *SectorEvt, 32),
+		Incoming: make(chan *model.SealingStateEvt, 32),
 		closing:  make(chan struct{}),
 		closed:   make(chan struct{}),
 	}
@@ -161,17 +152,19 @@ func (sl *SectorLifecycle) RunLoop() {
 	for {
 		select {
 		case je := <-sl.Incoming:
-			log.Infow("sl.incoming", "je", je)
-
 			err := sl.removesinfo(je)
 			if err != nil {
 				log.Errorf("removesinfo", "sid", je.SectorNumber)
 			}
 
+			log.Infof("removesinfo ok", "sid", je.SectorNumber)
+
 			err = sl.putsinfo(je)
 			if err != nil {
 				log.Errorf("putsinfo", "sid", je.SectorNumber)
 			}
+
+			log.Infof("putsinfo ok", "sid", je.SectorNumber)
 		case <-sl.closing:
 			_ = sl.Close()
 			return

@@ -34,3 +34,12 @@ type SealingStateInfoEvt struct {
 	SectorID   abi.SectorNumber
 	SectorType abi.RegisteredSealProof
 }
+
+// SealingStateEvt SealingStateEvt
+type SealingStateEvt struct {
+	SectorNumber abi.SectorNumber
+	SectorType   abi.RegisteredSealProof
+	From         SectorState
+	After        SectorState
+	Error        string
+}

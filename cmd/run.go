@@ -68,23 +68,6 @@ var RunCmd = &cli.Command{
 func initializeRoutes() {
 	router.GET("/", handler.HandleIndex)
 
-	dealRoutes := router.Group("/deal")
-	{
-		dealRoutes.GET("/send", handler.HandleSendDeal)
-	}
-
-	// send
-	powerRoutes := router.Group("/pow")
-	{
-		powerRoutes.GET("/send", handler.HandleSendPower)
-	}
-
-	// record
-	recordRoutes := router.Group("record")
-	{
-		recordRoutes.POST("/event", handler.HandleRecordEvent)
-	}
-
 	sectorInfoRoutes := router.Group("sector")
 	{
 		sectorInfoRoutes.POST("/info", handler.HandleSectorInfo)
@@ -92,7 +75,14 @@ func initializeRoutes() {
 }
 
 func initFrontRoutes() {
-	router.GET("/restart", handler.RestartAllSectors)
+	sectorQueryRoutes := router.Group("/query")
+	{
+		// Happy state
+		sectorQueryRoutes.GET("/states", handler.HandleQuerySector)
+
+		// Failed state
+	}
+
 }
 
 func initDs() error {
