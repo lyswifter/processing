@@ -1,6 +1,8 @@
 package sectorstore
 
 import (
+	"fmt"
+
 	"github.com/filecoin-project/go-statestore"
 	"github.com/ipfs/go-datastore"
 	"github.com/ipfs/go-datastore/namespace"
@@ -152,19 +154,22 @@ func (sl *SectorLifecycle) RunLoop() {
 	for {
 		select {
 		case je := <-sl.Incoming:
-			err := sl.removesinfo(je)
-			if err != nil {
-				log.Errorf("removesinfo", "sid", je.SectorNumber)
+
+			if je.From != je.After {
+				err := sl.removesinfo(je)
+				if err != nil {
+					log.Errorf("removesinfo", "sid", je.SectorNumber, "err", err.Error())
+				}
+
+				fmt.Printf("removesinfo ok: %d", je.SectorNumber)
 			}
 
-			log.Infof("removesinfo ok", "sid", je.SectorNumber)
-
-			err = sl.putsinfo(je)
+			err := sl.putsinfo(je)
 			if err != nil {
-				log.Errorf("putsinfo", "sid", je.SectorNumber)
+				log.Errorf("putsinfo", "sid", je.SectorNumber, "err", err.Error())
 			}
 
-			log.Infof("putsinfo ok", "sid", je.SectorNumber)
+			fmt.Printf("putsinfo ok: %d", je.SectorNumber)
 		case <-sl.closing:
 			_ = sl.Close()
 			return

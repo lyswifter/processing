@@ -1,6 +1,15 @@
 package sectorstore
 
-import "github.com/lyswifter/processing/model"
+import (
+	"fmt"
+
+	cbor "github.com/ipfs/go-ipld-cbor"
+	"github.com/lyswifter/processing/model"
+)
+
+func init() {
+	cbor.RegisterCborType(model.SealingStateEvt{})
+}
 
 func (sl *SectorLifecycle) removesinfo(se *model.SealingStateEvt) error {
 	log.Infof("remove sector info start: %s", se.SectorNumber.String())
@@ -244,7 +253,7 @@ func (sl *SectorLifecycle) removesinfo(se *model.SealingStateEvt) error {
 }
 
 func (sl *SectorLifecycle) putsinfo(se *model.SealingStateEvt) error {
-	log.Infof("put sector info start: %s", se.SectorNumber.String())
+	fmt.Printf("put sector info start: %s se: %+v", se.SectorNumber.String(), se)
 
 	switch se.After {
 	case model.Empty:

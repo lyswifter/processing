@@ -8,22 +8,23 @@ import (
 
 // Event Event
 type Event struct {
-	Datainfo  string `json:"datainfo"`
-	EventType `json:"eventtype"`
-	Timestamp time.Time `json:"timestamp"`
+	EventType
+
+	Timestamp time.Time
+	Data      interface{}
 }
 
 // EventType EventType
 type EventType struct {
-	System string `json:"system"`
-	Event  string `json:"event"`
+	System string
+	Event  string
 
 	// enabled stores whether this event type is enabled.
-	Enabled bool `json:"enabled"`
+	enabled bool
 
 	// safe is a sentinel marker that's set to true if this EventType was
 	// constructed correctly (via Journal#RegisterEventType).
-	Safe bool `json:"safe"`
+	safe bool
 }
 
 // SealingStateInfoEvt SealingStateInfoEvt

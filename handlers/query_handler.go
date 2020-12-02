@@ -266,7 +266,7 @@ func querySpecify(stat model.SectorState) ([]model.SealingStateEvt, error) {
 		return sInfo, xerrors.Errorf("no records")
 	}
 
-	fmt.Printf("sInfo: %+v\n", sInfo)
+	// fmt.Printf("sInfo: %+v\n", sInfo)
 
 	return sInfo, nil
 }
