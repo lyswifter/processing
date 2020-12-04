@@ -10,6 +10,7 @@ import (
 	"github.com/lyswifter/processing/db"
 	sectorstore "github.com/lyswifter/processing/db/sectorstore"
 	handler "github.com/lyswifter/processing/handlers"
+	middlewares "github.com/lyswifter/processing/middlewares"
 )
 
 const (
@@ -41,6 +42,8 @@ var RunCmd = &cli.Command{
 
 		// Set the router as the default one provided by Gin
 		router = gin.Default()
+
+		router.Use(middlewares.Cors())
 
 		// Process the templates at the start so that they don't have to be loaded
 		// from the disk again. This makes serving HTML pages very fast.
@@ -77,10 +80,7 @@ func initializeRoutes() {
 func initFrontRoutes() {
 	sectorQueryRoutes := router.Group("/query")
 	{
-		// Happy state
 		sectorQueryRoutes.GET("/states", handler.HandleQuerySector)
-
-		// Failed state
 	}
 
 }
