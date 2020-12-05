@@ -155,7 +155,8 @@ func (sl *SectorLifecycle) RunLoop() {
 		select {
 		case je := <-sl.Incoming:
 
-			if je.From != je.After {
+			if je.From != je.After && je.From != "" {
+				// TODO: if not exist, not do remove
 				err := sl.removesinfo(je)
 				if err != nil {
 					log.Errorf("removesinfo", "sid", je.SectorNumber, "err", err.Error())
@@ -164,9 +165,11 @@ func (sl *SectorLifecycle) RunLoop() {
 				fmt.Printf("removesinfo ok: %d", je.SectorNumber)
 			}
 
-			err := sl.putsinfo(je)
-			if err != nil {
-				log.Errorf("putsinfo", "sid", je.SectorNumber, "err", err.Error())
+			if je.After != "" {
+				err := sl.putsinfo(je)
+				if err != nil {
+					log.Errorf("putsinfo", "sid", je.SectorNumber, "err", err.Error())
+				}
 			}
 
 			fmt.Printf("putsinfo ok: %d", je.SectorNumber)

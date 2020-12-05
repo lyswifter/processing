@@ -38,6 +38,8 @@ type SealingStateInfoEvt struct {
 
 // SealingStateEvt SealingStateEvt
 type SealingStateEvt struct {
+	Sec          int64
+	Interval     string
 	TimeStamp    int64
 	SectorNumber abi.SectorNumber
 	SectorType   abi.RegisteredSealProof

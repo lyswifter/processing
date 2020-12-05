@@ -74,6 +74,7 @@ func initializeRoutes() {
 	sectorInfoRoutes := router.Group("sector")
 	{
 		sectorInfoRoutes.POST("/info", handler.HandleSectorInfo)
+		sectorInfoRoutes.POST("/restart", handler.HandleSectorRestart)
 	}
 }
 

@@ -140,3 +140,12 @@ const (
 	TaskError                  TaskState = "Error"
 	TaskSectorNotOnChan        TaskState = "TaskSectorNotOnChan"
 )
+
+// RestartUpInfo RestartUpInfo
+type RestartUpInfo struct {
+	SectorNumber abi.SectorNumber
+	SectorType   abi.RegisteredSealProof
+	LastState    SectorState
+	LastTime     int64
+	UpTime       int64
+}

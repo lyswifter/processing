@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lyswifter/processing/db"
@@ -19,7 +21,7 @@ func HandleQuerySector(c *gin.Context) {
 
 	fmt.Printf("HandleQuerySector states: %v offset: %s size: %s\n", qStates, offset, size)
 
-	var sInfos []model.SealingStateEvt
+	var sInfos []*model.SealingStateEvt
 	var allKeys []string
 	for _, ss := range qStates {
 		keys, ret, err := querySpecify(model.SectorState(ss), offset, size)
@@ -52,7 +54,7 @@ func HandleQuerySector(c *gin.Context) {
 	})
 }
 
-func querySpecify(stat model.SectorState, offset string, pSize string) ([]string, []model.SealingStateEvt, error) {
+func querySpecify(stat model.SectorState, offset string, pSize string) ([]string, []*model.SealingStateEvt, error) {
 	off, err := strconv.ParseInt(offset, 10, 64)
 	if err != nil {
 		return nil, nil, err
@@ -63,7 +65,7 @@ func querySpecify(stat model.SectorState, offset string, pSize string) ([]string
 		return nil, nil, err
 	}
 
-	var sInfo []model.SealingStateEvt
+	var sInfo []*model.SealingStateEvt
 	var allKeys []string
 	switch stat {
 	case model.Empty:
@@ -565,7 +567,11 @@ func querySpecify(stat model.SectorState, offset string, pSize string) ([]string
 		return allKeys, sInfo, xerrors.Errorf("no records")
 	}
 
-	// fmt.Printf("sInfo: %+v\n", sInfo)
+	for _, info := range sInfo {
+		delta := time.Since(time.Unix(info.TimeStamp, 0))
+		info.Interval = fmt.Sprintf("%ss", strings.Split(delta.String(), ".")[0])
+		info.Sec = int64(delta.Seconds())
+	}
 
 	return allKeys, sInfo, nil
 }
