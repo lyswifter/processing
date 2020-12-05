@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"reflect"
 
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/gin-gonic/gin"
@@ -15,7 +14,6 @@ import (
 
 // HandleSectorInfo HandleSectorInfo
 func HandleSectorInfo(c *gin.Context) {
-
 	r, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
@@ -31,23 +29,9 @@ func HandleSectorInfo(c *gin.Context) {
 		return
 	}
 
-	fmt.Printf("Event: %+v", evt)
-
-	ty := reflect.TypeOf(evt.Data)
-	va := reflect.ValueOf(evt.Data)
-
-	fmt.Printf("type: %v value: %v\n", ty, va)
-
 	item := evt.Data.(map[string]interface{})
-
-	sectorNumberT := reflect.TypeOf(item["SectorNumber"])
-	SectorTypeT := reflect.TypeOf(item["SectorType"])
-	FromT := reflect.TypeOf(item["From"])
-	AfterT := reflect.TypeOf(item["After"])
-	errorT := reflect.TypeOf(item["Error"])
-	fmt.Printf("sectorNumberT: %v SectorTypeT: %v FromT: %v AfterT: %v errorT: %v\n", sectorNumberT, SectorTypeT, FromT, AfterT, errorT)
-
 	st := model.SealingStateEvt{
+		TimeStamp:    evt.Timestamp.Unix(),
 		SectorNumber: abi.SectorNumber(item["SectorNumber"].(float64)),
 		SectorType:   abi.RegisteredSealProof(item["SectorType"].(float64)),
 		From:         model.SectorState(item["From"].(string)),
@@ -58,6 +42,5 @@ func HandleSectorInfo(c *gin.Context) {
 	db.SectorStore.Incoming <- &st
 
 	fmt.Println("push sector ok")
-
 	c.JSON(http.StatusOK, gin.H{"data": "HandleSectorInfo"})
 }
