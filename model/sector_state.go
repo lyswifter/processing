@@ -1,5 +1,15 @@
 package model
 
+import (
+	"encoding/json"
+	"io/ioutil"
+	"os"
+)
+
+const normalColor = "#60B158"
+const warnColor = "#FEBC2C"
+const errorColor = "#A4423F"
+
 type SectorState string
 
 const (
@@ -57,3 +67,63 @@ const (
 	OfflineDealsReady       SectorState = "OfflineDealsReady"
 	OfflineDealsReadyFailed SectorState = "OfflineDealsReadyFailed"
 )
+
+// StateTiming StateTiming
+type StateTiming struct {
+	Stat   SectorState `json:"stat"`
+	Normal int64       `json:"normal"`
+	Warn   int64       `json:"warn"`
+	Error  int64       `json:"error"`
+}
+
+// SSMaps SSMaps
+var SSMaps = make(map[string]StateTiming, 0)
+
+func init() {
+	jsonFile, err := os.Open("./sector_timing.json")
+	if err != nil {
+		return
+	}
+
+	defer jsonFile.Close()
+
+	byteValue, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		return
+	}
+
+	var states []StateTiming
+	err = json.Unmarshal([]byte(byteValue), &states)
+	if err != nil {
+		return
+	}
+
+	for _, ss := range states {
+		SSMaps[string(ss.Stat)] = StateTiming{
+			Stat:   SectorState(ss.Stat),
+			Normal: ss.Normal,
+			Warn:   ss.Warn,
+			Error:  ss.Error,
+		}
+	}
+}
+
+// GetStateColor GetStateColor
+func GetStateColor(stat SectorState, sec int64) string {
+	sta, ok := SSMaps[string(stat)]
+	if !ok {
+		return normalColor
+	}
+
+	if sta.Stat == Proving || sta.Stat == FinalizeSector {
+		return normalColor
+	}
+
+	if sec > sta.Error {
+		return errorColor
+	} else if sec > sta.Warn {
+		return warnColor
+	} else {
+		return normalColor
+	}
+}

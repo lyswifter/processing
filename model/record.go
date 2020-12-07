@@ -38,6 +38,7 @@ type SealingStateInfoEvt struct {
 
 // SealingStateEvt SealingStateEvt
 type SealingStateEvt struct {
+	Color        string
 	Sec          int64
 	Interval     string
 	TimeStamp    int64

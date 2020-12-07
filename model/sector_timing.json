@@ -1,0 +1,284 @@
+[
+    {
+        "stat": "Empty",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "WaitDeals",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "Packing",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "GetTicket",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "PreCommit1",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "PreCommit2",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "PreCommitting",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "PreCommitWait",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "WaitSeed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "Committing",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "SubmitCommit",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "CommitWait",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "FinalizeSector",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "Proving",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "FailedUnrecoverable",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "SealPreCommit1Failed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "SealPreCommit2Failed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "PreCommitFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "ComputeProofFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "CommitFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "PackingFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "FinalizeFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "DealsExpired",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "RecoverDealIDs",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "Faulty",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "FaultReported",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "FaultedFinal",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "Removing",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "RemoveFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "Removed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "SlaveCommittingFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "SlaveCommitFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "PreSealed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "ReSealing",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "ReSealedFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "SlaveFinal",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "Downloading",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "DownloadFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "ProxyCommitted",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "ProxyFetchingSector",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "OrphanFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "OspCommittingRequest",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "OspCommittingRequested",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "OspCommitting",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "OfflineDealsReady",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "OfflineDealsReadyFailed",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    },
+    {
+        "stat": "UndefinedSectorState",
+        "normal": 60,
+        "warn": 60,
+        "error": 60
+    }
+]

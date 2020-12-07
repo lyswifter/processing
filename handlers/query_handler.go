@@ -569,8 +569,12 @@ func querySpecify(stat model.SectorState, offset string, pSize string) ([]string
 
 	for _, info := range sInfo {
 		delta := time.Since(time.Unix(info.TimeStamp, 0))
+		secs := int64(delta.Seconds())
+		color := model.GetStateColor(info.After, secs)
+
 		info.Interval = fmt.Sprintf("%ss", strings.Split(delta.String(), ".")[0])
-		info.Sec = int64(delta.Seconds())
+		info.Sec = secs
+		info.Color = color
 	}
 
 	return allKeys, sInfo, nil
