@@ -115,7 +115,7 @@ func GetStateColor(stat SectorState, sec int64) string {
 		return normalColor
 	}
 
-	if sta.Stat == Proving || sta.Stat == FinalizeSector {
+	if sta.Stat == Proving || sta.Stat == FinalizeSector || sta.Stat == SlaveFinal {
 		return normalColor
 	}
 
