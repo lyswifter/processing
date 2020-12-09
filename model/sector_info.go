@@ -104,7 +104,7 @@ type SectorInfo struct {
 
 type UploadStorageClusterResult struct {
 	IsSyncStoreCluster bool
-	State              TaskState
+	// State              TaskState
 }
 type SectorInfoExtern struct {
 	VdeProgress     int64
@@ -126,20 +126,20 @@ type SectorInfoExt struct {
 	SectorInfoExtern
 }
 
-type TaskState string
+// type TaskState string
 
-const (
-	TaskUnknown                TaskState = ""
-	TaskStart                  TaskState = "Start"
-	TaskUploadSealedSector     TaskState = "UploadSealedSector"
-	TaskWaitUploadSealedSector TaskState = "WaitUploadSealedSector"
-	TaskUploadCacheSector      TaskState = "UploadCacheSector"
-	TaskUploadFinished         TaskState = "UploadFinished"
-	TaskCompleted              TaskState = "Completed"
-	TaskRemoved                TaskState = "Removed"
-	TaskError                  TaskState = "Error"
-	TaskSectorNotOnChan        TaskState = "TaskSectorNotOnChan"
-)
+// const (
+// 	TaskUnknown                TaskState = ""
+// 	TaskStart                  TaskState = "Start"
+// 	TaskUploadSealedSector     TaskState = "UploadSealedSector"
+// 	TaskWaitUploadSealedSector TaskState = "WaitUploadSealedSector"
+// 	TaskUploadCacheSector      TaskState = "UploadCacheSector"
+// 	TaskUploadFinished         TaskState = "UploadFinished"
+// 	TaskCompleted              TaskState = "Completed"
+// 	TaskRemoved                TaskState = "Removed"
+// 	TaskError                  TaskState = "Error"
+// 	TaskSectorNotOnChan        TaskState = "TaskSectorNotOnChan"
+// )
 
 // RestartUpInfo RestartUpInfo
 type RestartUpInfo struct {

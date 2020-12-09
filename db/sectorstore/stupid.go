@@ -245,6 +245,51 @@ func (sl *SectorLifecycle) removesinfo(se *model.SealingStateEvt) error {
 		if err != nil {
 			return err
 		}
+	case model.TaskUnknown:
+		err := sl.UPUnknown.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
+	case model.TaskStart:
+		err := sl.UPStart.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
+	case model.TaskUploadSealedSector:
+		err := sl.UPUploadSealedSector.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
+	case model.TaskWaitUploadSealedSector:
+		err := sl.UPWaitUploadSealedSector.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
+	case model.TaskUploadCacheSector:
+		err := sl.UPUploadCacheSector.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
+	case model.TaskUploadFinished:
+		err := sl.UPUploadFinished.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
+	case model.TaskCompleted:
+		err := sl.UPCompleted.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
+	case model.TaskError:
+		err := sl.UPError.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
+	case model.TaskSectorNotOnChan:
+		err := sl.UPTaskSectorNotOnChan.Get(se.SectorNumber).End()
+		if err != nil {
+			return err
+		}
 	default:
 		return nil
 	}
@@ -483,6 +528,52 @@ func (sl *SectorLifecycle) putsinfo(se *model.SealingStateEvt) error {
 		}
 	case model.OfflineDealsReadyFailed:
 		err := sl.OfflineDealsReadyFailed.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+
+	case model.TaskUnknown:
+		err := sl.UPUnknown.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+	case model.TaskStart:
+		err := sl.UPStart.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+	case model.TaskUploadSealedSector:
+		err := sl.UPUploadSealedSector.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+	case model.TaskWaitUploadSealedSector:
+		err := sl.UPWaitUploadSealedSector.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+	case model.TaskUploadCacheSector:
+		err := sl.UPUploadCacheSector.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+	case model.TaskUploadFinished:
+		err := sl.UPUploadFinished.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+	case model.TaskCompleted:
+		err := sl.UPCompleted.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+	case model.TaskError:
+		err := sl.UPError.Begin(se.SectorNumber, se)
+		if err != nil {
+			return err
+		}
+	case model.TaskSectorNotOnChan:
+		err := sl.UPTaskSectorNotOnChan.Begin(se.SectorNumber, se)
 		if err != nil {
 			return err
 		}

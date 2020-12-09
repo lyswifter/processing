@@ -68,6 +68,16 @@ type SectorLifecycle struct {
 	OfflineDealsReady       *statestore.StateStore
 	OfflineDealsReadyFailed *statestore.StateStore
 
+	UPUnknown                *statestore.StateStore
+	UPStart                  *statestore.StateStore
+	UPUploadSealedSector     *statestore.StateStore
+	UPWaitUploadSealedSector *statestore.StateStore
+	UPUploadCacheSector      *statestore.StateStore
+	UPUploadFinished         *statestore.StateStore
+	UPCompleted              *statestore.StateStore
+	UPError                  *statestore.StateStore
+	UPTaskSectorNotOnChan    *statestore.StateStore
+
 	Incoming chan *model.SealingStateEvt
 
 	closing chan struct{}
@@ -129,6 +139,16 @@ func NewLifecycle(ds datastore.Batching) (*SectorLifecycle, error) {
 
 		OfflineDealsReady:       statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/OfflineDealsReady"))),
 		OfflineDealsReadyFailed: statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/OfflineDealsReadyFailed"))),
+
+		UPUnknown:                statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPUnknown"))),
+		UPStart:                  statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPStart"))),
+		UPUploadSealedSector:     statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPUploadSealedSector"))),
+		UPWaitUploadSealedSector: statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPWaitUploadSealedSector"))),
+		UPUploadCacheSector:      statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPUploadCacheSector"))),
+		UPUploadFinished:         statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPUploadFinished"))),
+		UPCompleted:              statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPCompleted"))),
+		UPError:                  statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPError"))),
+		UPTaskSectorNotOnChan:    statestore.New(namespace.Wrap(ds, datastore.NewKey("/sectors/UPSectorNotOnChan"))),
 
 		Incoming: make(chan *model.SealingStateEvt, 32),
 		closing:  make(chan struct{}),

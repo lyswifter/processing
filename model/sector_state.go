@@ -66,6 +66,17 @@ const (
 	OspCommitFailed         SectorState = "OspCommitting"          // OSP compute PoRep
 	OfflineDealsReady       SectorState = "OfflineDealsReady"
 	OfflineDealsReadyFailed SectorState = "OfflineDealsReadyFailed"
+
+	TaskUnknown                SectorState = "UPUnknown"
+	TaskStart                  SectorState = "UPStart"
+	TaskUploadSealedSector     SectorState = "UPUploadSealedSector"
+	TaskWaitUploadSealedSector SectorState = "UPWaitUploadSealedSector"
+	TaskUploadCacheSector      SectorState = "UPUploadCacheSector"
+	TaskUploadFinished         SectorState = "UPUploadFinished"
+	TaskCompleted              SectorState = "UPCompleted"
+	// TaskRemoved                SectorState = "UPRemoved"
+	TaskError           SectorState = "UPError"
+	TaskSectorNotOnChan SectorState = "UPTaskSectorNotOnChan"
 )
 
 // StateTiming StateTiming
