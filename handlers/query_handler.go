@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -566,6 +567,12 @@ func querySpecify(stat model.SectorState, offset string, pSize string) ([]string
 	default:
 		return allKeys, sInfo, xerrors.Errorf("no records")
 	}
+
+	sort.SliceIsSorted(sInfo, func(i, j int) bool {
+		deltaI := time.Since(time.Unix(sInfo[i].TimeStamp, 0))
+		deltaJ := time.Since(time.Unix(sInfo[j].TimeStamp, 0))
+		return deltaI > deltaJ
+	})
 
 	for _, info := range sInfo {
 		delta := time.Since(time.Unix(info.TimeStamp, 0))
