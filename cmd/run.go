@@ -63,7 +63,7 @@ var RunCmd = &cli.Command{
 		fmt.Println("Processing server is running...")
 
 		// Start serving the application
-		router.Run(":9090")
+		router.Run(":8089")
 		return nil
 	},
 }
