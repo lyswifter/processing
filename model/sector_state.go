@@ -74,9 +74,8 @@ const (
 	TaskUploadCacheSector      SectorState = "UPUploadCacheSector"
 	TaskUploadFinished         SectorState = "UPUploadFinished"
 	TaskCompleted              SectorState = "UPCompleted"
-	// TaskRemoved                SectorState = "UPRemoved"
-	TaskError           SectorState = "UPError"
-	TaskSectorNotOnChan SectorState = "UPTaskSectorNotOnChan"
+	TaskError                  SectorState = "UPError"
+	TaskSectorNotOnChan        SectorState = "UPTaskSectorNotOnChan"
 )
 
 // StateTiming StateTiming
