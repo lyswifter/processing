@@ -568,15 +568,27 @@ func querySpecify(stat model.SectorState, offset string, pSize string) ([]string
 		return allKeys, sInfo, xerrors.Errorf("no records")
 	}
 
-	sort.SliceIsSorted(sInfo, func(i, j int) bool {
-		deltaI := time.Since(time.Unix(sInfo[i].TimeStamp, 0))
-		deltaJ := time.Since(time.Unix(sInfo[j].TimeStamp, 0))
-		return deltaI > deltaJ
+	// sort.SliceIsSorted(sInfo, func(i, j int) bool {
+	// 	deltaI := time.Since(time.Unix(sInfo[i].TimeStamp, 0))
+	// 	deltaJ := time.Since(time.Unix(sInfo[j].TimeStamp, 0))
+	// 	return deltaI > deltaJ
+	// })
+
+	sort.Slice(sInfo, func(i, j int) bool {
+		return sInfo[i].SectorNumber > sInfo[j].SectorNumber
 	})
 
 	for _, info := range sInfo {
 		delta := time.Since(time.Unix(info.TimeStamp, 0))
+		if delta < 0 {
+			delta = time.Duration(0)
+		}
+
 		secs := int64(delta.Seconds())
+		if secs < 0 {
+			secs = 0
+		}
+
 		color := model.GetStateColor(info.After, secs)
 
 		info.Interval = fmt.Sprintf("%ss", strings.Split(delta.String(), ".")[0])
